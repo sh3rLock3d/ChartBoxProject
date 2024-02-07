@@ -28,8 +28,10 @@ async def get_user(user_id):
 
 @app.get("/filter_user")
 async def get_user(q = None,):
+    # example http://localhost:8000/filter_user?q='location.country'='Germany'
     # todo validation of q, prevent sql injection
-    q = "SELECT * FROM users"
+    q = "SELECT * FROM users WHERE " + q+";"
+    print(q)
     output = conn.execute(text(q))
     results = output.fetchall()
     results = [i._mapping for i in list(results)]
