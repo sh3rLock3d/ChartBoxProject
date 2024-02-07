@@ -42,3 +42,4 @@ async def get_user():
     results = output.fetchall()
     results = [i._mapping for i in list(results)]
     return {"message": results[:10]}
+
