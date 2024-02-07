@@ -32,12 +32,15 @@ df
 
 
 df = df[(df['dob.age']>30) & (df['gender']=='male')]
+#df.reset_index(drop=True, inplace=True)
 df.head(5)
 
-# 4. save to database
+# 4. hash passwords
+df['login.password'] = df['login.password'].apply(hash)
 
-from sqlalchemy import create_engine
-#engine = create_engine('postgresql://username:password@localhost:5432/mydatabase')
-engine = create_engine("postgresql+psycopg2:///mydatabase", echo=True)
-df.to_sql('users', engine)
+
+# 4. save to database
+url = 'postgresql://postgres:myPassword@localhost:5432/chartbox' 
+engine = create_engine(url, echo=True)
+df.to_sql('users', engine, if_exists='replace')
 
